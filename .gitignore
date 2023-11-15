@@ -1,0 +1,12 @@
+*
+
+!.gitconfig
+!.gitignore
+!.zshrc
+!.bashrc
+!.tmux.conf
+
+
+!.config/
+!.config/.gitignore
+

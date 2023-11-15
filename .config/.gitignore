@@ -1,0 +1,15 @@
+!nvim/
+!nvim/*.vim
+!nvim/lua/
+!nvim/lua/**/*
+
+
+!rtx/
+!rtx/*
+
+
+!zellij/
+!zellij/*
+
+
+!starship.toml

@@ -1,0 +1,19 @@
+[user]
+	signingkey = DAC83B474D9BF1D1
+	email = sthasam2@gmail.com
+	name = Sam Stha
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+	sw = switch
+	sts = stash
+    scommit = commit -S
+[core]
+    editor = nvim
