@@ -39,7 +39,7 @@ call plug#end()
 """"""""""""""""""""""""
 " LUA
 """"""""""""""""""""""""
-lua require("plugin_configs.lspconfig")
+lua require("pluign-configs.lspconfig")
 
 """""""""""""""""""""""""
 " THEME
@@ -50,18 +50,18 @@ colorscheme tokyonight
 """"""""""""""""""""""""
 " TREE
 """"""""""""""""""""""""
-lua require("plugin_configs.tree")
+lua require("pluign-configs.tree")
 
 """"""""""""""""""""""""
 " TELESCOPE
 """"""""""""""""""""""""
-lua require("plugin_configs.telescope")
+lua require("pluign-configs.telescope")
 
 
 """"""""""""""""""""""""
 " BARBAR
 """"""""""""""""""""""""
-lua require("plugin_configs.barbar")
+lua require("pluign-configs.barbar")
 
 """"""""""""""""""""""""
 " KEYBINDINGS

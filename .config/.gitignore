@@ -1,5 +1,6 @@
 !nvim/
 !nvim/*.vim
+!nvim/*.lua
 !nvim/lua/
 !nvim/lua/**/*
 
