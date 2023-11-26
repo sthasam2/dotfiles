@@ -116,6 +116,18 @@ function ghpr () {
     gh pr list | fzf --preview "gh pr view {+1}" | awk '{ print $1}' | xargs -I {} gh pr checkout {}
 }
 
+function gsfe {
+  passphrase=$1
+  shift
+  command=$2
+  shift
+  git submodule foreach "git $command" -o credentail.sshPassphrase=$passphrase
+}
+
+function gprune {
+    git branch | grep -v -e "master" -e "main" | xargs git branch -D
+}
+
 # -----------------------
 # |      ANDROID        |
 # -----------------------
@@ -312,5 +324,7 @@ eval "$(direnv hook zsh)"
 # Ranger
 export RANGER_LOAD_DEFAULT_RC=FALSE
 
+# For ansible locale errors
+export LC_ALL=C.UTF-8
 
 
