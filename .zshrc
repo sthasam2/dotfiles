@@ -57,8 +57,9 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-alias zshconf="nvim ~/.zshrc"
-alias zshsrc="source ~/.zshrc"
+alias zconf="nvim ~/.zshrc"
+alias zsrc="source ~/.zshrc"
+alias zhis="cat ~/.zsh_history | fzf | xargs -I {} echo {} | cut -d';' -f2 | xargs -I {} sh -c '{}'"
 
 # User configuration
 
@@ -115,11 +116,7 @@ function ghpr() {
 }
 
 function gsfe {
-  passphrase=$1
-  shift
-  command=$2
-  shift
-  git submodule foreach "git $command" -o credentail.sshPassphrase=$passphrase
+  git submodule foreach "git $1"
 }
 
 function gprune {
@@ -313,3 +310,5 @@ export RANGER_LOAD_DEFAULT_RC=FALSE
 
 # For ansible locale errors
 export LC_ALL=C.UTF-8
+
+export CHROME_EXECUTABLE=/user/bin/brave-browser
