@@ -59,7 +59,7 @@ source $ZSH/oh-my-zsh.sh
 
 alias zconf="nvim ~/.zshrc"
 alias zsrc="source ~/.zshrc"
-alias zhis="cat ~/.zsh_history | fzf | xargs -I {} echo {} | cut -d';' -f2 | xargs -I {} sh -c '{}'"
+alias zhis="cat ~/.zsh_history | fzf | sed 's/.*;//' | xargs -I {} sh -c '{}'"
 
 # User configuration
 
