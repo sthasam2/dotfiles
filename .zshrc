@@ -60,7 +60,6 @@ source $ZSH/oh-my-zsh.sh
 alias zshconf="nvim ~/.zshrc"
 alias zshsrc="source ~/.zshrc"
 
-
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -101,19 +100,18 @@ export PATH=/usr/bin:/bin:$PATH
 # STARSHIP
 eval "$(starship init zsh)"
 
-
 # -----------------------
 # |      GIT            |
 # -----------------------
 
 alias lzg=lazygit
 
-function gch () {
-    git checkout $( git branch | fzf | sed 's/.* //' | tr -d '[:space:]' );
+function gch() {
+  git checkout $(git branch | fzf | sed 's/.* //' | tr -d '[:space:]')
 }
 
-function ghpr () {
-    gh pr list | fzf --preview "gh pr view {+1}" | awk '{ print $1}' | xargs -I {} gh pr checkout {}
+function ghpr() {
+  gh pr list | fzf --preview "gh pr view {+1}" | awk '{ print $1}' | xargs -I {} gh pr checkout {}
 }
 
 function gsfe {
@@ -125,7 +123,7 @@ function gsfe {
 }
 
 function gprune {
-    git branch | grep -v -e "master" -e "main" | xargs git branch -D
+  git branch | grep -v -e "master" -e "main" | xargs git branch -D
 }
 
 # -----------------------
@@ -174,7 +172,6 @@ eval "$(pyenv init -)"
 # Poetry
 export PATH="$HOME/.poetry/bin:$PATH"
 
-
 # -----------------------
 # |         MOJO        |
 # -----------------------
@@ -198,7 +195,6 @@ export PATH=$PATH:$GOPATH/bin
 # JAVA
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
-
 
 # -----------------------
 # |         NNN         |
@@ -226,19 +222,16 @@ alias pnx="pnpx"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-
 # -----------------------
 # |         VOLTA       |
 # -----------------------
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
-
 # -----------------------
 # |       AUTOJUMP      |
 # -----------------------
 . /usr/share/autojump/autojump.sh
-
 
 # -----------------------
 # |     DOCKER          |
@@ -248,7 +241,8 @@ alias dpsa="docker ps -a"
 alias dim="docker images"
 alias dima="docker images -a"
 alias dl="docker logs"
-alias tagd="TAG=dev"
+alias dlf="docker logs -f"
+alias deit="docker container exec -it"
 alias dkrm="docker kill $(docker ps -q); docker rm $(docker ps -a -q)"
 alias dprune="docker system prune -f && docker volume prune -f"
 alias dpsb="docker ps --format '{{.Names}}:\n\tstatus: {{.Status}}\n\tports: {{.Ports}}\n'"
@@ -258,7 +252,6 @@ export DOCKER_CLIENT_TIMEOUT=120
 export COMPOSE_HTTP_TIMEOUT=120
 
 alias lzd="lazydocker"
-
 
 # -----------------------
 #           CUDA        |
@@ -271,40 +264,34 @@ alias lzd="lazydocker"
 # __conda_setup="$('/home/sthasam/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 # if [ $? -eq 0 ]; then
 #    eval "$__conda_setup"
-# else if [ -f "/home/sthasam/miniconda3/etc/profile.d/conda.sh" ]; 
-#         then . "/home/sthasam/miniconda3/etc/profile.d/conda.sh" 
+# else if [ -f "/home/sthasam/miniconda3/etc/profile.d/conda.sh" ];
+#         then . "/home/sthasam/miniconda3/etc/profile.d/conda.sh"
 #     else
-#         export PATH="/home/sthasam/miniconda3/bin:$PATH" 
+#         export PATH="/home/sthasam/miniconda3/bin:$PATH"
 #     fi
 # fi
 # unset __conda_setup
 # <<< conda initialize <<<
-
 
 # -----------------------
 # |         CONDA       |
 # -----------------------
 # export PATH=~/miniconda3/bin:$PATH
 
-
-
 # -----------------------
 # |         NVIM        |
 # -----------------------
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
-
 
 # -----------------------
 # |         ZELLIJ      |
 # -----------------------
 eval "$(zellij setup --generate-auto-start zsh)"
 
-
 # -----------------------
 # |         RTX         |
 # -----------------------
 eval "$(rtx activate zsh)"
-
 
 # -----------------------
 # |         MISC        |
@@ -326,5 +313,3 @@ export RANGER_LOAD_DEFAULT_RC=FALSE
 
 # For ansible locale errors
 export LC_ALL=C.UTF-8
-
-
