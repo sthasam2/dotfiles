@@ -116,7 +116,7 @@ eval "$(starship init zsh)"
 alias lzg=lazygit
 
 function gch() {
-  git checkout $(git branch | fzf | sed 's/.* //' | tr -d '[:space:]')
+  git checkout $(git branch | fzf --preview "sed 's/^* //;s/ *$//' | git log -n 20 {+1} | batcat --color=always --style=numbers" | sed 's/^* //;s/ *$//')
 }
 
 function ghpr() {
