@@ -49,14 +49,22 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
-  zsh-syntax-highlighting
   zsh-autosuggestions
+  zsh-interactive-cd
+  zsh-navigation-tools
+  zsh-syntax-highlighting
   autojump
   poetry
+  docker
+  rtx
+  virtualenv
+  man
 )
+
 
 source $ZSH/oh-my-zsh.sh
 
+alias cls="clear"
 alias zconf="nvim ~/.zshrc"
 alias zsrc="source ~/.zshrc"
 alias zhis="cat ~/.zsh_history | fzf | sed 's/.*;//' | xargs -I {} sh -c '{}'"
@@ -162,12 +170,13 @@ alias pym="python3 manage.py"
 alias vact="source .venv/bin/activate"
 
 # PYENV
-export PYENV_ROOT=$HOME/.pyenv
-export PATH=$PYENV_ROOT/bin:$PATH
-eval "$(pyenv init -)"
+# export PYENV_ROOT=$HOME/.pyenv
+# export PATH=$PYENV_ROOT/bin:$PATH
+# eval "$(pyenv init -)"
 
 # Poetry
-export PATH="$HOME/.poetry/bin:$PATH"
+export POETRY_HOME="$HOME/.local"
+export PATH="$POETRY_HOME/bin:$PATH"
 
 # -----------------------
 # |         MOJO        |
@@ -179,11 +188,11 @@ export PATH=$MODULAR_HOME/pkg/packages.modular.com_mojo/bin:$PATH
 # |         GO          |
 # -----------------------
 
-export GOROOT=/usr/local/go
-export PATH=$PATH:$GOROOT/bin
+# export GOROOT=/usr/local/go
+# export PATH=$PATH:$GOROOT/bin
 # export GO111MODULE=off
-export GOPATH=$HOME/.go/go
-export PATH=$PATH:$GOPATH/bin
+# export GOPATH=$HOME/.go/go
+# export PATH=$PATH:$GOPATH/bin
 
 # -----------------------
 # |         JAVA        |
