@@ -116,7 +116,7 @@ eval "$(starship init zsh)"
 alias lzg=lazygit
 
 function gch() {
-  git checkout $(git branch | fzf --preview "sed 's/^* //;s/ *$//' | git log -n 20 {+1} | batcat --color=always --style=numbers" | sed 's/^* //;s/ *$//')
+    git switch $(git branch --all | fzf --preview "sed 's/^.* //;s/ .*$//' | git log -n 20 {+1} | batcat --color=always --style=numbers" | sed 's/^* //;s|^.*origin/||;s/ *$//')
 }
 
 function ghpr() {
@@ -320,4 +320,3 @@ export RANGER_LOAD_DEFAULT_RC=FALSE
 # For ansible locale errors
 export LC_ALL=C.UTF-8
 
-export CHROME_EXECUTABLE=/user/bin/brave-browser
