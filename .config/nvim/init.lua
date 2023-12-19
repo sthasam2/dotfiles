@@ -63,7 +63,7 @@ require('plugin-configs.tree') -- nvim-tree config
 -- Mappings
 --------------------
 -- Map <C-s> to toggle NvimTree
-vim.api.nvim_set_keymap('n', '<C-s>', ':NvimTreeToggle<CR>', {
+vim.api.nvim_set_keymap('n', '<leader>b', ':NvimTreeToggle<CR>', {
     noremap = true,
     silent = true
 })
