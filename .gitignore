@@ -10,3 +10,8 @@
 !.config/
 !.config/.gitignore
 
+
+
+# Added by cargo
+
+/target
