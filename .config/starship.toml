@@ -79,6 +79,12 @@ add_newline = false
 # BRACKETS
 ##############
 
+[custom.gh]
+command = 'gh profile show'
+symbol = ''
+when = true
+format = '\[[$symbol ($output)]($style)\]'
+
 [aws]
 format = '\[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
 
