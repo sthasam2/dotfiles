@@ -81,8 +81,9 @@ add_newline = false
 
 [custom.gh]
 command = 'gh profile show'
+style = 'bold white'
 symbol = ''
-when = true
+when = 'command -v gh >/dev/null 2>&1 && true || false'
 format = '\[[$symbol ($output)]($style)\]'
 
 [aws]
