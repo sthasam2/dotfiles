@@ -56,7 +56,7 @@ plugins=(
   autojump
   poetry
   docker
-  rtx
+  mise
   virtualenv
   man
 )
