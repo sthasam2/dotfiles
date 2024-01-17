@@ -102,6 +102,8 @@ alias zhis="cat ~/.zsh_history | fzf | sed 's/.*;//' | xargs -I {} sh -c '{}'"
 # BASH
 export PATH=/usr/bin:/bin:$PATH
 
+alias nv=nvim 
+
 # -----------------------
 # |       SHELL         |
 # -----------------------
