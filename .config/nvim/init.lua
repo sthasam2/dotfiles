@@ -11,6 +11,14 @@ vim.opt.signcolumn = "yes" -- always show sign column (left)
 vim.opt.termguicolors = true -- enable 24-bit RGB colors 
 vim.cmd [[highlight ColorColumn ctermbg=235 guibg=#2E3440]] -- set color column color
 
+
+-- smart case search
+vim.opt.smartcase = true
+-- Set other options as needed
+vim.o.ignorecase = true
+vim.o.incsearch = true
+
+
 -- Editing
 
 -- tabs and indentation
