@@ -67,7 +67,7 @@ source $ZSH/oh-my-zsh.sh
 alias cls="clear"
 alias zconf="nvim ~/.zshrc"
 alias zsrc="source ~/.zshrc"
-alias zhis="cat ~/.zsh_history | fzf | sed 's/.*;//' | xargs -I {} sh -c '{}'"
+alias hs="history | fzf | sed 's/.* //' | xargs -I {} $SHELL -c '{}'"
 
 # User configuration
 
@@ -316,10 +316,10 @@ export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 eval "$(zellij setup --generate-auto-start zsh)"
 
 # -----------------------
-# |         RTX         |
+# |        MISE         |
 # -----------------------
-eval "$(rtx activate zsh)"
-
+# eval "$(rtx activate zsh)"
+eval "$($HOME/.local/bin/mise activate zsh)"
 # -----------------------
 # |         MISC        |
 # -----------------------
@@ -340,4 +340,5 @@ export RANGER_LOAD_DEFAULT_RC=FALSE
 
 # For ansible locale errors
 export LC_ALL=C.UTF-8
+
 
