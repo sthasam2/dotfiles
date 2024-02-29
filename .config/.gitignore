@@ -5,8 +5,8 @@
 !nvim/lua/**/*
 
 
-!rtx/
-!rtx/*
+!mise/
+!mise/*
 
 
 !zellij/
