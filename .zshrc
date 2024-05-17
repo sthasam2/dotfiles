@@ -19,7 +19,7 @@ ZSH_THEME="robbyrussell"
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
@@ -54,13 +54,11 @@ plugins=(
   zsh-navigation-tools
   zsh-syntax-highlighting
   autojump
-  poetry
   docker
   mise
   virtualenv
   man
-)
-
+ poetry)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -118,7 +116,7 @@ eval "$(starship init zsh)"
 alias lzg=lazygit
 
 function gch() {
-    git switch $(git branch --all | fzf --preview "sed 's/^.* //;s/ .*$//' | git log -n 20 {+1} | batcat --color=always --style=numbers" | sed 's/^* //;s|^.*origin/||;s/ *$//')
+  git switch $(git branch --all | fzf --preview "sed 's/^.* //;s/ .*$//' | git log -n 20 {+1} | batcat --color=always --style=numbers" | sed 's/^* //;s|^.*origin/||;s/ *$//')
 }
 
 function ghpr() {
@@ -156,24 +154,24 @@ export PATH=$GROOVY_HOME/bin:$PATH
 # |      ANDROID        |
 # -----------------------
 
-# ANDROID
-export ANDROID_HOME=$HOME/Android
-export PATH=$ANDROID_HOME/cmdline-tools:$PATH
-
-# ANDROID SDK
-export ANDROID_SDK_ROOT=$ANDROID_HOME
-export PATH=$ANDROID_SDK_ROOT:$PATH
-export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH
-
-#  PLATFORM TOOLS
-export ANDROID_PLATFORM_TOOLS=$ANDROID_SDK_ROOT/platform-tools
-export PATH=$ANDROID_PLATFORM_TOOLS:$PATH
-
-# EMULATOR
-export ANDROID_EMULATOR=$ANDROID_SDK_ROOT/emulator
-export PATH=$ANDROID_EMULATOR:$PATH
-
-alias runemu="emulator @Pixel_4_API_30"
+# # ANDROID
+# export ANDROID_HOME=$HOME/Android
+# export PATH=$ANDROID_HOME/cmdline-tools:$PATH
+# 
+# # ANDROID SDK
+# export ANDROID_SDK_ROOT=$ANDROID_HOME
+# export PATH=$ANDROID_SDK_ROOT:$PATH
+# export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH
+# 
+# #  PLATFORM TOOLS
+# export ANDROID_PLATFORM_TOOLS=$ANDROID_SDK_ROOT/platform-tools
+# export PATH=$ANDROID_PLATFORM_TOOLS:$PATH
+# 
+# # EMULATOR
+# export ANDROID_EMULATOR=$ANDROID_SDK_ROOT/emulator
+# export PATH=$ANDROID_EMULATOR:$PATH
+# 
+# alias runemu="emulator @Pixel_4_API_30"
 
 # FLUTTER
 # export PATH=$HOME/Android/flutter/bin:$PATH
@@ -189,6 +187,7 @@ alias py=python3
 alias po=poetry
 alias pym="python3 manage.py"
 alias vact="source .venv/bin/activate"
+alias pos="poetry shell"
 
 # PYENV
 # export PYENV_ROOT=$HOME/.pyenv
@@ -196,12 +195,13 @@ alias vact="source .venv/bin/activate"
 # eval "$(pyenv init -)"
 
 # Poetry
-export POETRY_HOME="$HOME/.local"
-export PATH="$POETRY_HOME/bin:$PATH"
+#   export POETRY_HOME="$HOME/.local"
+#   export PATH="$POETRY_HOME/bin:$PATH"
 
 # -----------------------
 # |         MOJO        |
 # -----------------------
+
 export MODULAR_HOME=$HOME/.modular
 export PATH=$MODULAR_HOME/pkg/packages.modular.com_mojo/bin:$PATH
 
@@ -252,12 +252,13 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # -----------------------
 # |         VOLTA       |
 # -----------------------
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
+#export VOLTA_HOME="$HOME/.volta"
+#export PATH="$VOLTA_HOME/bin:$PATH"
 
 # -----------------------
 # |       AUTOJUMP      |
 # -----------------------
+
 . /usr/share/autojump/autojump.sh
 
 # -----------------------
@@ -283,6 +284,7 @@ alias lzd="lazydocker"
 # -----------------------
 #           CUDA        |
 # -----------------------
+
 #CUDNN_PATH=$(dirname $(python -c "import nvidia.cudnn;print(nvidia.cudnn.__file__)"))
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/:$CUDNN_PATH/lib
 
@@ -313,13 +315,19 @@ export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 # -----------------------
 # |         ZELLIJ      |
 # -----------------------
-eval "$(zellij setup --generate-auto-start zsh)"
+
+#   eval "$(zellij setup --generate-auto-start zsh)"
+
+function zes(){
+    zellij a $(zellij ls -n | fzf | awk '{print $1}' | sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g')
+}
 
 # -----------------------
 # |        MISE         |
 # -----------------------
-# eval "$(rtx activate zsh)"
+
 eval "$($HOME/.local/bin/mise activate zsh)"
+
 # -----------------------
 # |         MISC        |
 # -----------------------
@@ -341,4 +349,14 @@ export RANGER_LOAD_DEFAULT_RC=FALSE
 # For ansible locale errors
 export LC_ALL=C.UTF-8
 
+PATH=~/.console-ninja/.bin:$PATH
+
+
+##############################
+#       KONNECTCRAFT
+##############################
+
+function kon-prune(){
+    docker images --format '{{.Repository}}:{{.Tag}}' | grep -e "k-v2" -e "konnectcraft" | xargs -I {} docker rmi {}
+}
 
