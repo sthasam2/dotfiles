@@ -58,7 +58,8 @@ plugins=(
   mise
   virtualenv
   man
- poetry)
+  poetry
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -66,7 +67,7 @@ alias cls="clear"
 alias zconf="nvim ~/.zshrc"
 alias zsrc="source ~/.zshrc"
 alias hs="history | fzf | sed 's/.* //' | xargs -I {} $SHELL -c '{}'"
-
+alias jj="just"
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -360,3 +361,5 @@ function kon-prune(){
     docker images --format '{{.Repository}}:{{.Tag}}' | grep -e "k-v2" -e "konnectcraft" | xargs -I {} docker rmi {}
 }
 
+
+. "$HOME/.cargo/env"
