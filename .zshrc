@@ -68,6 +68,7 @@ alias zconf="nvim ~/.zshrc"
 alias zsrc="source ~/.zshrc"
 alias hs="history | fzf | sed 's/.* //' | xargs -I {} $SHELL -c '{}'"
 alias jj="just"
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -124,11 +125,11 @@ function ghpr() {
   gh pr list | fzf --preview "gh pr view {+1}" | awk '{ print $1}' | xargs -I {} gh pr checkout {}
 }
 
-function gsfe {
+function gsfe() {
   git submodule foreach "git $1"
 }
 
-function gprune {
+function gprune() {
   git branch | grep -v -e "master" -e "main" | xargs git branch -D
 }
 
@@ -155,18 +156,18 @@ export PATH=$GROOVY_HOME/bin:$PATH
 # |      ANDROID        |
 # -----------------------
 
-# # ANDROID
-# export ANDROID_HOME=$HOME/Android
-# export PATH=$ANDROID_HOME/cmdline-tools:$PATH
-# 
-# # ANDROID SDK
-# export ANDROID_SDK_ROOT=$ANDROID_HOME
-# export PATH=$ANDROID_SDK_ROOT:$PATH
-# export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH
-# 
-# #  PLATFORM TOOLS
-# export ANDROID_PLATFORM_TOOLS=$ANDROID_SDK_ROOT/platform-tools
-# export PATH=$ANDROID_PLATFORM_TOOLS:$PATH
+# ANDROID
+export ANDROID_HOME=$HOME/Android
+#export PATH=$ANDROID_HOME/cmdline-tools:$PATH
+#
+## ANDROID SDK
+#export ANDROID_SDK_ROOT=$ANDROID_HOME
+#export PATH=$ANDROID_SDK_ROOT:$PATH
+#export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH
+## 
+## #  PLATFORM TOOLS
+#export ANDROID_PLATFORM_TOOLS=$ANDROID_SDK_ROOT/platform-tools
+#export PATH=$ANDROID_PLATFORM_TOOLS:$PATH
 # 
 # # EMULATOR
 # export ANDROID_EMULATOR=$ANDROID_SDK_ROOT/emulator
@@ -272,9 +273,13 @@ alias dima="docker images -a"
 alias dl="docker logs"
 alias dlf="docker logs -f"
 alias deit="docker container exec -it"
-alias dkrm="docker kill $(docker ps -q); docker rm $(docker ps -a -q)"
 alias dprune="docker system prune -f && docker volume prune -f"
 alias dpsb="docker ps --format '{{.Names}}:\n\tstatus: {{.Status}}\n\tports: {{.Ports}}\n'"
+
+function dkrm() {
+    docker kill $(docker ps -q);
+    docker rm $(docker ps -aq);
+}
 
 # export DOCKER_HOST=unix:///run/user/1000/docker.sock
 export DOCKER_CLIENT_TIMEOUT=120
