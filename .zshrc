@@ -264,6 +264,11 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 . /usr/share/autojump/autojump.sh
 
 # -----------------------
+# |     MINIO           |
+# -----------------------
+PATH=$PATH:$HOME/minio-binaries/
+
+# -----------------------
 # |     DOCKER          |
 # -----------------------
 alias dps="docker ps"
