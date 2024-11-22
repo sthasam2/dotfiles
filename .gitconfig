@@ -1,12 +1,17 @@
 [user]
-	signingkey = DAC83B474D9BF1D1
+	# signingkey = ~/.ssh/your_ssh_key.pub
+	name = Stha Sam
 	email = sthasam2@gmail.com
-	name = Sam Stha
+
+[gpg]
+	format = ssh
+
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+
 [alias]
 	co = checkout
 	br = branch
@@ -14,6 +19,11 @@
 	st = status
 	sw = switch
 	sts = stash
-    scommit = commit -S
+	scommit = commit -S
+
 [core]
-    editor = nvim
+	editor = nvim
+
+# Special configs for certain dirs
+# [includeIf "gitdir:~/projects/special/**"]
+#     path = ~/.gitconfig-special
