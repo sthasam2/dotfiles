@@ -4,13 +4,13 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
+export ZSH=${ZSH:-$HOME/.oh-my-zsh}
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+# ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -53,28 +53,16 @@ plugins=(
   zsh-interactive-cd
   zsh-navigation-tools
   zsh-syntax-highlighting
-  autojump
+  zoxide
   docker
   mise
-  virtualenv
   man
   poetry
 )
 
 source $ZSH/oh-my-zsh.sh
 
-alias cls="clear"
-alias zconf="nvim ~/.zshrc"
-alias zsrc="source ~/.zshrc"
-alias hs="history | fzf | sed 's/.* //' | xargs -I {} $SHELL -c '{}'"
-alias jj="just"
-
 # User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -86,290 +74,347 @@ alias jj="just"
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
 ##################################################
 ###                 CUSTOM                    ###
 #################################################
 
 # BASH
 export PATH=/usr/bin:/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 
-alias nv=nvim 
+check_missing_commands() {
+  local missing=()
+  for cmd in "$@"; do
+    if ! command -v "$cmd" >/dev/null 2>&1; then
+      missing+=("$cmd")
+    fi
+  done
+
+  if ((${#missing[@]})); then
+    echo "${missing[@]}"
+  fi
+}
+
+path_if_exists() {
+  if [ -d "$1" ]; then
+    export PATH="$1:$PATH"
+  fi
+}
+
+# Aliases
+alias cls=clear
+alias zconf="nvim ~/.zshrc"
+alias zsrc="source ~/.zshrc"
+alias hs="history | fzf | sed 's/.* //' | xargs -I {} $SHELL -c '{}'"
+alias j="just"
+alias nv="nvim"
 
 # -----------------------
 # |       SHELL         |
 # -----------------------
 
 # STARSHIP
-eval "$(starship init zsh)"
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
 
 # -----------------------
 # |      GIT            |
 # -----------------------
 
-alias lzg=lazygit
+if command -v lazygit >/dev/null 2>&1; then
+  alias lzg=lazygit
+fi
 
 function gch() {
-  git switch $(git branch --all | fzf --preview "sed 's/^.* //;s/ .*$//' | git log -n 20 {+1} | batcat --color=always --style=numbers" | sed 's/^* //;s|^.*origin/||;s/ *$//')
+  local missing=()
+  missing=$(check_missing_commands git fzf batcat)
+
+  if [ -n "$missing" ]; then
+    echo "Missing command(s) for 'gch': $missing"
+    return 1
+  fi
+
+  git switch "$(git branch --all | fzf --preview "git log -n 20 {+1} | batcat" | sed 's/^* //;s|^.*origin/||;s/ *$//')"
 }
 
 function ghpr() {
+  local missing=()
+  missing=$(check_missing_commands gh fzf awk)
+
+  if [ -n "$missing" ]; then
+    echo "Missing command(s) for 'ghpr': $missing"
+    return 1
+  fi
+
   gh pr list | fzf --preview "gh pr view {+1}" | awk '{ print $1}' | xargs -I {} gh pr checkout {}
 }
 
 function gsfe() {
-  git submodule foreach "git $1"
+  if command -v git >/dev/null 2>&1; then
+    git submodule foreach "git $*"
+  else
+    echo "Git is not available for gsfe."
+  fi
 }
 
 function gprune() {
-  git branch | grep -v -e "master" -e "main" | xargs git branch -D
+  if command -v git >/dev/null 2>&1; then
+    git branch | grep -v -e "master" -e "main" | xargs git branch -D
+  else
+    echo "Git is not available for gprune."
+  fi
 }
 
 # -----------------------
 # |      GITHUB         |
 # -----------------------
 
-function coex {
+function coex() {
+  if command -v gh >/dev/null 2>&1; then
     gh copilot explain "$*"
+  else
+    echo "GitHub CLI is not available for coex."
+  fi
 }
 
-function cosu {
+function cosu() {
+  if command -v gh >/dev/null 2>&1; then
     gh copilot suggest "$*"
+  else
+    echo "GitHub CLI is not available for cosu."
+  fi
 }
 
 # -----------------------
 # |       GROOVY        |
 # -----------------------
 
-export GROOVY_HOME=/opt/groovy
-export PATH=$GROOVY_HOME/bin:$PATH
+if [ -d "/opt/groovy" ]; then
+  export GROOVY_HOME=/opt/groovy
+  export PATH=$GROOVY_HOME/bin:$PATH
+fi
 
 # -----------------------
 # |      ANDROID        |
 # -----------------------
 
-# ANDROID
-export ANDROID_HOME=$HOME/Android
-#export PATH=$ANDROID_HOME/cmdline-tools:$PATH
-#
-## ANDROID SDK
-#export ANDROID_SDK_ROOT=$ANDROID_HOME
-#export PATH=$ANDROID_SDK_ROOT:$PATH
-#export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH
-## 
-## #  PLATFORM TOOLS
-#export ANDROID_PLATFORM_TOOLS=$ANDROID_SDK_ROOT/platform-tools
-#export PATH=$ANDROID_PLATFORM_TOOLS:$PATH
-# 
-# # EMULATOR
-# export ANDROID_EMULATOR=$ANDROID_SDK_ROOT/emulator
-# export PATH=$ANDROID_EMULATOR:$PATH
-# 
-# alias runemu="emulator @Pixel_4_API_30"
+ANDROID_HOME_DEFAULT="$HOME/Android"
+
+if [ -d "$ANDROID_HOME_DEFAULT" ]; then
+  export ANDROID_HOME=$ANDROID_HOME_DEFAULT
+
+  # Uncomment and adjust the following lines based on your Android SDK installation
+  # path_if_exists "$ANDROID_HOME/cmdline-tools"
+  # export ANDROID_SDK_ROOT=$ANDROID_HOME
+  # path_if_exists "$ANDROID_SDK_ROOT"
+  # path_if_exists "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin"
+  # path_if_exists "$ANDROID_SDK_ROOT/platform-tools"
+  # path_if_exists "$ANDROID_SDK_ROOT/emulator"
+  # alias_if_exists runemu "emulator @Pixel_4_API_30"
+fi
 
 # FLUTTER
-# export PATH=$HOME/Android/flutter/bin:$PATH
+# path_if_exists "$HOME/Android/flutter/bin"
 
 # -----------------------
 # |         PYTHON      |
 # -----------------------
 
-# PYTHON
-export PATH=$HOME/.local/bin:$PATH
+if command -v python3 >/dev/null 2>&1; then
+  alias py=python3
+fi
 
-alias py=python3
-alias po=poetry
+if command -v poetry >/dev/null 2>&1; then
+  alias po=poetry
+  alias pos="poetry shell"
+fi
+
 alias pym="python3 manage.py"
 alias vact="source .venv/bin/activate"
-alias pos="poetry shell"
-
-# PYENV
-# export PYENV_ROOT=$HOME/.pyenv
-# export PATH=$PYENV_ROOT/bin:$PATH
-# eval "$(pyenv init -)"
-
-# Poetry
-#   export POETRY_HOME="$HOME/.local"
-#   export PATH="$POETRY_HOME/bin:$PATH"
 
 # -----------------------
 # |         MOJO        |
 # -----------------------
 
-export MODULAR_HOME=$HOME/.modular
-export PATH=$MODULAR_HOME/pkg/packages.modular.com_mojo/bin:$PATH
+MODULAR_HOME_DEFAULT="$HOME/.modular"
+
+if [ -d "$MODULAR_HOME_DEFAULT/pkg/packages.modular.com_mojo/bin" ]; then
+  export MODULAR_HOME=$MODULAR_HOME_DEFAULT
+  export PATH=$MODULAR_HOME/pkg/packages.modular.com_mojo/bin:$PATH
+fi
 
 # -----------------------
 # |         GO          |
 # -----------------------
 
-# export GOROOT=/usr/local/go
-# export PATH=$PATH:$GOROOT/bin
-# export GO111MODULE=off
-# export GOPATH=$HOME/.go/go
-# export PATH=$PATH:$GOPATH/bin
+## Handled by mise now
+
+# Uncomment and set GOROOT if Go is installed in a custom location
+# if [ -d "/usr/local/go" ]; then
+#   export GOROOT=/usr/local/go
+#   export PATH=$PATH:$GOROOT/bin
+#   export GO111MODULE=off
+#   export GOPATH=$HOME/.go/go
+#   export PATH=$PATH:$GOPATH/bin
+# fi
 
 # -----------------------
 # |         JAVA        |
 # -----------------------
 
-# JAVA
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-export PATH=$JAVA_HOME/bin:$PATH
+JAVA_HOME_DEFAULT="/usr/lib/jvm/java-8-openjdk-amd64"
 
-# -----------------------
-# |         NNN         |
-# -----------------------
-
-export NNN_PLUG='f:finder;o:fzopen;p:preview-tabbed;v:imgview'
+if [ -d "$JAVA_HOME_DEFAULT" ]; then
+  export JAVA_HOME=$JAVA_HOME_DEFAULT
+  export PATH=$JAVA_HOME/bin:$PATH
+fi
 
 # -----------------------
 # |         NODE        |
 # -----------------------
 
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+if command -v pnpm >/dev/null 2>&1; then
+  alias pn="pnpm"
+  alias pnd="pnpm dlx"
+  alias pnr="pnpm run"
+  alias pnx="pnpx"
+fi
 
-alias pn="pnpm"
-alias pnd="pnpm dlx"
-alias pnr="pnpm run"
-alias pnx="pnpx"
+## Bun
 
-# bun completions
-[ -s "/home/sthasam/.bun/_bun" ] && source "/home/sthasam/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# -----------------------
-# |         VOLTA       |
-# -----------------------
-#export VOLTA_HOME="$HOME/.volta"
-#export PATH="$VOLTA_HOME/bin:$PATH"
+# Uncomment if Bun is installed and paths are correct
+# if [ -s "$HOME/.bun/_bun" ]; then
+#   source "$HOME/.bun/_bun"
+#   export BUN_INSTALL="$HOME/.bun"
+#   export PATH="$BUN_INSTALL/bin:$PATH"
+# fi
 
 # -----------------------
-# |       AUTOJUMP      |
+# |      ZOXIDE         |
 # -----------------------
-
-. /usr/share/autojump/autojump.sh
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
 
 # -----------------------
 # |     MINIO           |
 # -----------------------
-PATH=$PATH:$HOME/minio-binaries/
+MINIO_BIN_DEFAULT="$HOME/minio-binaries"
+if [ -d "$MINIO_BIN_DEFAULT" ]; then
+  export PATH=$PATH:$MINIO_BIN_DEFAULT
+fi
 
 # -----------------------
 # |     DOCKER          |
 # -----------------------
-alias dps="docker ps"
-alias dpsa="docker ps -a"
-alias dim="docker images"
-alias dima="docker images -a"
-alias dl="docker logs"
-alias dlf="docker logs -f"
-alias deit="docker container exec -it"
-alias dprune="docker system prune -f && docker volume prune -f"
-alias dpsb="docker ps --format '{{.Names}}:\n\tstatus: {{.Status}}\n\tports: {{.Ports}}\n'"
 
-function dkrm() {
-    docker kill $(docker ps -q);
-    docker rm $(docker ps -aq);
-}
+if command -v docker >/dev/null 2>&1; then
+  alias dps="docker ps"
+  alias dpsa="docker ps -a"
+  alias dim="docker images"
+  alias dima="docker images -a"
+  alias dl="docker logs"
+  alias dlf="docker logs -f"
+  alias deit="docker container exec -it"
+  alias dprune="docker system prune -f && docker volume prune -f"
+  alias dpsb="docker ps --format '{{.Names}}:\n\tstatus: {{.Status}}\n\tports: {{.Ports}}\n'"
 
-# export DOCKER_HOST=unix:///run/user/1000/docker.sock
-export DOCKER_CLIENT_TIMEOUT=120
-export COMPOSE_HTTP_TIMEOUT=120
+  function dkrm() {
+    echo "Killing containers..."
+    docker kill $(docker ps --format "{{.Names}}")
+    echo "\nRemoving containers..."
+    docker rm $(docker ps -a --format "{{.Names}}")
+  }
 
-alias lzd="lazydocker"
+  # export DOCKER_HOST=unix:///run/user/1000/docker.sock
+  export DOCKER_CLIENT_TIMEOUT=120
+  export COMPOSE_HTTP_TIMEOUT=120
 
-# -----------------------
-#           CUDA        |
-# -----------------------
-
-#CUDNN_PATH=$(dirname $(python -c "import nvidia.cudnn;print(nvidia.cudnn.__file__)"))
-#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/:$CUDNN_PATH/lib
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-# __conda_setup="$('/home/sthasam/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-# if [ $? -eq 0 ]; then
-#    eval "$__conda_setup"
-# else if [ -f "/home/sthasam/miniconda3/etc/profile.d/conda.sh" ];
-#         then . "/home/sthasam/miniconda3/etc/profile.d/conda.sh"
-#     else
-#         export PATH="/home/sthasam/miniconda3/bin:$PATH"
-#     fi
-# fi
-# unset __conda_setup
-# <<< conda initialize <<<
-
-# -----------------------
-# |         CONDA       |
-# -----------------------
-# export PATH=~/miniconda3/bin:$PATH
+  # if command -v lazydocker >/dev/null 2>&1; then
+  alias lzd="lazydocker"
+  # fi
+fi
 
 # -----------------------
 # |         NVIM        |
 # -----------------------
-export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
+NVIM_BIN_DEFAULT="$HOME/.local/share/bob/nvim-bin"
+
+if [ -d "$NVIM_BIN_DEFAULT" ]; then
+  export PATH="$NVIM_BIN_DEFAULT:$PATH"
+fi
 
 # -----------------------
 # |         ZELLIJ      |
 # -----------------------
 
-#   eval "$(zellij setup --generate-auto-start zsh)"
+if command -v zellij >/dev/null 2>&1; then
+  # Uncomment the following line if you want to enable auto-start
+  # eval "$(zellij setup --generate-auto-start zsh)"
 
-function zes(){
-    zellij a $(zellij ls -n | fzf | awk '{print $1}' | sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g')
-}
+  function zes() {
+    local session
+    session=$(zellij ls -n | fzf | awk '{print $1}' | sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g')
+    if [ -n "$session" ]; then
+      zellij attach "$session"
+    else
+      echo "No session selected."
+    fi
+  }
+fi
 
 # -----------------------
 # |        MISE         |
 # -----------------------
 
-eval "$($HOME/.local/bin/mise activate zsh)"
+MISE_ACTIVATE_SCRIPT="$HOME/.local/bin/mise"
+
+if [ -x "$MISE_ACTIVATE_SCRIPT" ]; then
+  eval "$($MISE_ACTIVATE_SCRIPT activate zsh)"
+fi
 
 # -----------------------
 # |         MISC        |
 # -----------------------
 
 # NGROK
-alias ngrok=$HOME/Programming/ngrok
+NGROK_PATH="$HOME/Programming/ngrok"
+
+if [ -x "$NGROK_PATH" ]; then
+  alias ngrok="$NGROK_PATH"
+fi
 
 # DIRENV
-eval "$(direnv hook zsh)"
+if command -v direnv >/dev/null 2>&1; then
+  eval "$(direnv hook zsh)"
+fi
 
 # TMUX
-#    if [[ -z "$TMUX" ]]; then
-#       tmux
-#    fi
+# Uncomment the following lines if you want to auto-start tmux
+# if [[ -z "$TMUX" ]] && command -v tmux >/dev/null 2>&1; then
+#    tmux
+# fi
 
 # Ranger
 export RANGER_LOAD_DEFAULT_RC=FALSE
 
 # For ansible locale errors
-export LC_ALL=C.UTF-8
-
-PATH=~/.console-ninja/.bin:$PATH
-
+export LC_ALL=${LC_ALL:-C.UTF-8}
 
 ##############################
 #       KONNECTCRAFT
 ##############################
 
-function kon-prune(){
+function kc-rmi() {
+  if command -v docker >/dev/null 2>&1; then
     docker images --format '{{.Repository}}:{{.Tag}}' | grep -e "k-v2" -e "konnectcraft" | xargs -I {} docker rmi {}
+  else
+    echo "Docker is not available for kon-prune."
+  fi
 }
 
-
-. "$HOME/.cargo/env"
+# Rust environment
+if [ -f "$HOME/.cargo/env" ]; then
+  source "$HOME/.cargo/env"
+fi
