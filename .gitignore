@@ -3,14 +3,12 @@
 !.gitconfig
 !.gitignore
 !.zshrc
+!.zshrc.backup
 !.bashrc
 !.tmux.conf
 
-
 !.config/
 !.config/.gitignore
-
-
 
 # Added by cargo
 
