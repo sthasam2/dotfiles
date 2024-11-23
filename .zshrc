@@ -122,9 +122,7 @@ fi
 # |      GIT            |
 # -----------------------
 
-if command -v lazygit >/dev/null 2>&1; then
-  alias lzg=lazygit
-fi
+alias lzg=lazygit
 
 function gch() {
   local missing=()
@@ -221,14 +219,10 @@ fi
 # |         PYTHON      |
 # -----------------------
 
-if command -v python3 >/dev/null 2>&1; then
-  alias py=python3
-fi
+alias py=python3
 
-if command -v poetry >/dev/null 2>&1; then
-  alias po=poetry
-  alias pos="poetry shell"
-fi
+alias po=poetry
+alias pos="poetry shell"
 
 alias pym="python3 manage.py"
 alias vact="source .venv/bin/activate"
@@ -274,12 +268,10 @@ fi
 # |         NODE        |
 # -----------------------
 
-if command -v pnpm >/dev/null 2>&1; then
-  alias pn="pnpm"
-  alias pnd="pnpm dlx"
-  alias pnr="pnpm run"
-  alias pnx="pnpx"
-fi
+alias pn="pnpm"
+alias pnd="pnpm dlx"
+alias pnr="pnpm run"
+alias pnx="pnpx"
 
 ## Bun
 
@@ -309,17 +301,18 @@ fi
 # |     DOCKER          |
 # -----------------------
 
-if command -v docker >/dev/null 2>&1; then
-  alias dps="docker ps"
-  alias dpsa="docker ps -a"
-  alias dim="docker images"
-  alias dima="docker images -a"
-  alias dl="docker logs"
-  alias dlf="docker logs -f"
-  alias deit="docker container exec -it"
-  alias dprune="docker system prune -f && docker volume prune -f"
-  alias dpsb="docker ps --format '{{.Names}}:\n\tstatus: {{.Status}}\n\tports: {{.Ports}}\n'"
+alias dps="docker ps"
+alias dpsa="docker ps -a"
+alias dim="docker images"
+alias dima="docker images -a"
+alias dl="docker logs"
+alias dlf="docker logs -f"
+alias deit="docker container exec -it"
+alias dprune="docker system prune -f && docker volume prune -f"
+alias dpsb="docker ps --format '{{.Names}}:\n\tstatus: {{.Status}}\n\tports: {{.Ports}}\n'"
+alias lzd="lazydocker"
 
+if command -v docker >/dev/null 2>&1; then
   function dkrm() {
     echo "Killing containers..."
     docker kill $(docker ps --format "{{.Names}}")
@@ -327,13 +320,13 @@ if command -v docker >/dev/null 2>&1; then
     docker rm $(docker ps -a --format "{{.Names}}")
   }
 
+  function kc-rmi() {
+      docker images --format '{{.Repository}}:{{.Tag}}' | grep -e "k-v2" -e "konnectcraft" | xargs -I {} docker rmi {}
+  }
+
   # export DOCKER_HOST=unix:///run/user/1000/docker.sock
   export DOCKER_CLIENT_TIMEOUT=120
   export COMPOSE_HTTP_TIMEOUT=120
-
-  # if command -v lazydocker >/dev/null 2>&1; then
-  alias lzd="lazydocker"
-  # fi
 fi
 
 # -----------------------
@@ -406,13 +399,7 @@ export LC_ALL=${LC_ALL:-C.UTF-8}
 #       KONNECTCRAFT
 ##############################
 
-function kc-rmi() {
-  if command -v docker >/dev/null 2>&1; then
-    docker images --format '{{.Repository}}:{{.Tag}}' | grep -e "k-v2" -e "konnectcraft" | xargs -I {} docker rmi {}
-  else
-    echo "Docker is not available for kon-prune."
-  fi
-}
+
 
 # Rust environment
 if [ -f "$HOME/.cargo/env" ]; then
