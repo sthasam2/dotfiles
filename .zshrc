@@ -106,7 +106,7 @@ alias cls=clear
 alias zconf="nvim ~/.zshrc"
 alias zsrc="source ~/.zshrc"
 alias hs="history | fzf | sed 's/.* //' | xargs -I {} $SHELL -c '{}'"
-alias j="just"
+alias jj="just"
 alias nv="nvim"
 
 # -----------------------
@@ -296,6 +296,8 @@ MINIO_BIN_DEFAULT="$HOME/minio-binaries"
 if [ -d "$MINIO_BIN_DEFAULT" ]; then
   export PATH=$PATH:$MINIO_BIN_DEFAULT
 fi
+alias mc=$MINIO_BIN_DEFAULT/mc
+
 
 # -----------------------
 # |     DOCKER          |
@@ -405,3 +407,5 @@ export LC_ALL=${LC_ALL:-C.UTF-8}
 if [ -f "$HOME/.cargo/env" ]; then
   source "$HOME/.cargo/env"
 fi
+
+
