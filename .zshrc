@@ -122,7 +122,7 @@ fi
 # |      GIT            |
 # -----------------------
 
-alias lzg=lazygit
+alias gg=lazygit
 
 local missing_gch=()
 missing_gch=$(check_missing_commands git fzf batcat)
@@ -305,6 +305,8 @@ fi
 # |     DOCKER          |
 # -----------------------
 
+alias dd="lazydocker"
+
 alias dps="docker ps"
 alias dpsa="docker ps -a"
 alias dim="docker images"
@@ -312,9 +314,9 @@ alias dima="docker images -a"
 alias dl="docker logs"
 alias dlf="docker logs -f"
 alias deit="docker container exec -it"
+alias dex="docker container exec"
 alias dprune="docker system prune -f && docker volume prune -f"
-alias dpsb="docker ps --format '{{.Names}}:\n\tstatus: {{.Status}}\n\tports: {{.Ports}}\n'"
-alias lzd="lazydocker"
+alias dpsf="docker ps --format '{{.Names}}:\n\tstatus: {{.Status}}\n\tports: {{.Ports}}\n'"
 
 if command -v docker >/dev/null 2>&1; then
 	function dkrm() {
