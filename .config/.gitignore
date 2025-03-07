@@ -1,5 +1,7 @@
 !nvim
 !nvim/**/*
+!nvim.bak
+!nvim.bak/**/*
 !mise
 !mise/**/*
 !zellij
