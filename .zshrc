@@ -48,16 +48,16 @@ ENABLE_CORRECTION="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git
-  zsh-autosuggestions
-  zsh-interactive-cd
-  zsh-navigation-tools
-  zsh-syntax-highlighting
-  zoxide
-  docker
-  mise
-  man
-  poetry
+	git
+	zsh-autosuggestions
+	zsh-interactive-cd
+	zsh-navigation-tools
+	zsh-syntax-highlighting
+	zoxide
+	docker
+	mise
+	man
+	poetry
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -83,22 +83,22 @@ export PATH=/usr/bin:/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 
 check_missing_commands() {
-  local missing=()
-  for cmd in "$@"; do
-    if ! command -v "$cmd" >/dev/null 2>&1; then
-      missing+=("$cmd")
-    fi
-  done
+	local missing=()
+	for cmd in "$@"; do
+		if ! command -v "$cmd" >/dev/null 2>&1; then
+			missing+=("$cmd")
+		fi
+	done
 
-  if ((${#missing[@]})); then
-    echo "${missing[@]}"
-  fi
+	if ((${#missing[@]})); then
+		echo "${missing[@]}"
+	fi
 }
 
 path_if_exists() {
-  if [ -d "$1" ]; then
-    export PATH="$1:$PATH"
-  fi
+	if [ -d "$1" ]; then
+		export PATH="$1:$PATH"
+	fi
 }
 
 # Aliases
@@ -115,7 +115,7 @@ alias nv="nvim"
 
 # STARSHIP
 if command -v starship >/dev/null 2>&1; then
-  eval "$(starship init zsh)"
+	eval "$(starship init zsh)"
 fi
 
 # -----------------------
@@ -124,44 +124,47 @@ fi
 
 alias lzg=lazygit
 
+local missing_gch=()
+missing_gch=$(check_missing_commands git fzf batcat)
+
 function gch() {
-  local missing=()
-  missing=$(check_missing_commands git fzf batcat)
+	if [ -n "$missing_gch" ]; then
+		echo "Missing command(s) for 'gch': $missing"
+		return 1
+	fi
 
-  if [ -n "$missing" ]; then
-    echo "Missing command(s) for 'gch': $missing"
-    return 1
-  fi
-
-  git switch "$(git branch --all | fzf --preview "git log -n 20 {+1} | batcat" | sed 's/^* //;s|^.*origin/||;s/ *$//')"
+	selected_branch=$(git branch --all | fzf --preview "git log -n 20 {+1} | batcat" | sed 's/^* //;s|^.*origin/||;s/ *$//')
+	if [ -n "$selected_branch" ]; then
+		git switch "$selected_branch"
+	fi
 }
 
+local missing_ghpr=()
+missing_ghpr=$(check_missing_commands gh fzf awk)
+
 function ghpr() {
-  local missing=()
-  missing=$(check_missing_commands gh fzf awk)
+	if [ -n "$missing_ghpr" ]; then
+		echo "Missing command(s) for 'ghpr': $missing"
+		return 1
+	fi
 
-  if [ -n "$missing" ]; then
-    echo "Missing command(s) for 'ghpr': $missing"
-    return 1
-  fi
-
-  gh pr list | fzf --preview "gh pr view {+1}" | awk '{ print $1}' | xargs -I {} gh pr checkout {}
+	gh pr list | fzf --preview "gh pr view {+1}" | awk '{ print $1}' | xargs -I {} gh pr checkout {}
 }
 
 function gsfe() {
-  if command -v git >/dev/null 2>&1; then
-    git submodule foreach "git $*"
-  else
-    echo "Git is not available for gsfe."
-  fi
+	if command -v git >/dev/null 2>&1; then
+		git submodule foreach "git $*"
+	else
+		echo "Git is not available for gsfe."
+	fi
 }
 
 function gprune() {
-  if command -v git >/dev/null 2>&1; then
-    git branch | grep -v -e "master" -e "main" | xargs git branch -D
-  else
-    echo "Git is not available for gprune."
-  fi
+	if command -v git >/dev/null 2>&1; then
+		git branch | grep -v -e "master" -e "main" | xargs git branch -D
+	else
+		echo "Git is not available for gprune."
+	fi
 }
 
 # -----------------------
@@ -169,19 +172,19 @@ function gprune() {
 # -----------------------
 
 function coex() {
-  if command -v gh >/dev/null 2>&1; then
-    gh copilot explain "$*"
-  else
-    echo "GitHub CLI is not available for coex."
-  fi
+	if command -v gh >/dev/null 2>&1; then
+		gh copilot explain "$*"
+	else
+		echo "GitHub CLI is not available for coex."
+	fi
 }
 
 function cosu() {
-  if command -v gh >/dev/null 2>&1; then
-    gh copilot suggest "$*"
-  else
-    echo "GitHub CLI is not available for cosu."
-  fi
+	if command -v gh >/dev/null 2>&1; then
+		gh copilot suggest "$*"
+	else
+		echo "GitHub CLI is not available for cosu."
+	fi
 }
 
 # -----------------------
@@ -189,8 +192,8 @@ function cosu() {
 # -----------------------
 
 if [ -d "/opt/groovy" ]; then
-  export GROOVY_HOME=/opt/groovy
-  export PATH=$GROOVY_HOME/bin:$PATH
+	export GROOVY_HOME=/opt/groovy
+	export PATH=$GROOVY_HOME/bin:$PATH
 fi
 
 # -----------------------
@@ -200,16 +203,16 @@ fi
 ANDROID_HOME_DEFAULT="$HOME/Android"
 
 if [ -d "$ANDROID_HOME_DEFAULT" ]; then
-  export ANDROID_HOME=$ANDROID_HOME_DEFAULT
+	export ANDROID_HOME=$ANDROID_HOME_DEFAULT
 
-  # Uncomment and adjust the following lines based on your Android SDK installation
-  # path_if_exists "$ANDROID_HOME/cmdline-tools"
-  # export ANDROID_SDK_ROOT=$ANDROID_HOME
-  # path_if_exists "$ANDROID_SDK_ROOT"
-  # path_if_exists "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin"
-  # path_if_exists "$ANDROID_SDK_ROOT/platform-tools"
-  # path_if_exists "$ANDROID_SDK_ROOT/emulator"
-  # alias_if_exists runemu "emulator @Pixel_4_API_30"
+	# Uncomment and adjust the following lines based on your Android SDK installation
+	# path_if_exists "$ANDROID_HOME/cmdline-tools"
+	# export ANDROID_SDK_ROOT=$ANDROID_HOME
+	# path_if_exists "$ANDROID_SDK_ROOT"
+	# path_if_exists "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin"
+	# path_if_exists "$ANDROID_SDK_ROOT/platform-tools"
+	# path_if_exists "$ANDROID_SDK_ROOT/emulator"
+	# alias_if_exists runemu "emulator @Pixel_4_API_30"
 fi
 
 # FLUTTER
@@ -234,8 +237,8 @@ alias vact="source .venv/bin/activate"
 MODULAR_HOME_DEFAULT="$HOME/.modular"
 
 if [ -d "$MODULAR_HOME_DEFAULT/pkg/packages.modular.com_mojo/bin" ]; then
-  export MODULAR_HOME=$MODULAR_HOME_DEFAULT
-  export PATH=$MODULAR_HOME/pkg/packages.modular.com_mojo/bin:$PATH
+	export MODULAR_HOME=$MODULAR_HOME_DEFAULT
+	export PATH=$MODULAR_HOME/pkg/packages.modular.com_mojo/bin:$PATH
 fi
 
 # -----------------------
@@ -260,8 +263,8 @@ fi
 JAVA_HOME_DEFAULT="/usr/lib/jvm/java-8-openjdk-amd64"
 
 if [ -d "$JAVA_HOME_DEFAULT" ]; then
-  export JAVA_HOME=$JAVA_HOME_DEFAULT
-  export PATH=$JAVA_HOME/bin:$PATH
+	export JAVA_HOME=$JAVA_HOME_DEFAULT
+	export PATH=$JAVA_HOME/bin:$PATH
 fi
 
 # -----------------------
@@ -286,18 +289,17 @@ alias pnx="pnpx"
 # |      ZOXIDE         |
 # -----------------------
 if command -v zoxide >/dev/null 2>&1; then
-  eval "$(zoxide init zsh)"
+	eval "$(zoxide init zsh)"
 fi
 
 # -----------------------
 # |     MINIO           |
 # -----------------------
-MINIO_BIN_DEFAULT="$HOME/minio-binaries"
-if [ -d "$MINIO_BIN_DEFAULT" ]; then
-  export PATH=$PATH:$MINIO_BIN_DEFAULT
-fi
-alias mc=$MINIO_BIN_DEFAULT/mc
-
+# MINIO_BIN_DEFAULT="$HOME/minio-binaries"
+# if [ -d "$MINIO_BIN_DEFAULT" ]; then
+#   export PATH=$PATH:$MINIO_BIN_DEFAULT
+# fi
+# alias mc=$MINIO_BIN_DEFAULT/mc
 
 # -----------------------
 # |     DOCKER          |
@@ -315,20 +317,20 @@ alias dpsb="docker ps --format '{{.Names}}:\n\tstatus: {{.Status}}\n\tports: {{.
 alias lzd="lazydocker"
 
 if command -v docker >/dev/null 2>&1; then
-  function dkrm() {
-    echo "Killing containers..."
-    docker kill $(docker ps --format "{{.Names}}")
-    echo "\nRemoving containers..."
-    docker rm $(docker ps -a --format "{{.Names}}")
-  }
+	function dkrm() {
+		echo "Killing containers..."
+		docker kill $(docker ps --format "{{.Names}}")
+		echo "\nRemoving containers..."
+		docker rm $(docker ps -a --format "{{.Names}}")
+	}
 
-  function kc-rmi() {
-      docker images --format '{{.Repository}}:{{.Tag}}' | grep -e "k-v2" -e "konnectcraft" | xargs -I {} docker rmi {}
-  }
+	function kc-rmi() {
+		docker images --format '{{.Repository}}:{{.Tag}}' | grep -e "k-v2" -e "konnectcraft" | xargs -I {} docker rmi {}
+	}
 
-  # export DOCKER_HOST=unix:///run/user/1000/docker.sock
-  export DOCKER_CLIENT_TIMEOUT=120
-  export COMPOSE_HTTP_TIMEOUT=120
+	# export DOCKER_HOST=unix:///run/user/1000/docker.sock
+	export DOCKER_CLIENT_TIMEOUT=120
+	export COMPOSE_HTTP_TIMEOUT=120
 fi
 
 # -----------------------
@@ -337,7 +339,7 @@ fi
 NVIM_BIN_DEFAULT="$HOME/.local/share/bob/nvim-bin"
 
 if [ -d "$NVIM_BIN_DEFAULT" ]; then
-  export PATH="$NVIM_BIN_DEFAULT:$PATH"
+	export PATH="$NVIM_BIN_DEFAULT:$PATH"
 fi
 
 # -----------------------
@@ -345,18 +347,18 @@ fi
 # -----------------------
 
 if command -v zellij >/dev/null 2>&1; then
-  # Uncomment the following line if you want to enable auto-start
-  # eval "$(zellij setup --generate-auto-start zsh)"
+	# Uncomment the following line if you want to enable auto-start
+	# eval "$(zellij setup --generate-auto-start zsh)"
 
-  function zes() {
-    local session
-    session=$(zellij ls -n | fzf | awk '{print $1}' | sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g')
-    if [ -n "$session" ]; then
-      zellij attach "$session"
-    else
-      echo "No session selected."
-    fi
-  }
+	function zes() {
+		local session
+		session=$(zellij ls -n | fzf | awk '{print $1}' | sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g')
+		if [ -n "$session" ]; then
+			zellij attach "$session"
+		else
+			echo "No session selected."
+		fi
+	}
 fi
 
 # -----------------------
@@ -366,7 +368,7 @@ fi
 MISE_ACTIVATE_SCRIPT="$HOME/.local/bin/mise"
 
 if [ -x "$MISE_ACTIVATE_SCRIPT" ]; then
-  eval "$($MISE_ACTIVATE_SCRIPT activate zsh)"
+	eval "$($MISE_ACTIVATE_SCRIPT activate zsh)"
 fi
 
 # -----------------------
@@ -377,12 +379,12 @@ fi
 NGROK_PATH="$HOME/Programming/ngrok"
 
 if [ -x "$NGROK_PATH" ]; then
-  alias ngrok="$NGROK_PATH"
+	alias ngrok="$NGROK_PATH"
 fi
 
 # DIRENV
 if command -v direnv >/dev/null 2>&1; then
-  eval "$(direnv hook zsh)"
+	eval "$(direnv hook zsh)"
 fi
 
 # TMUX
@@ -401,11 +403,7 @@ export LC_ALL=${LC_ALL:-C.UTF-8}
 #       KONNECTCRAFT
 ##############################
 
-
-
 # Rust environment
 if [ -f "$HOME/.cargo/env" ]; then
-  source "$HOME/.cargo/env"
+	source "$HOME/.cargo/env"
 fi
-
-
