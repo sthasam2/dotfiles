@@ -10,6 +10,7 @@ config.color_scheme = "Tokyo Night (Gogh)"
 -- config.color_scheme = 'Tokyo Night Day'
 
 -- config.window_decorations = "RESIZE"
-tab_bar_at_bottom = true
+config.tab_bar_at_bottom = true
+config.use_fancy_tab_bar = true
 
 return config
