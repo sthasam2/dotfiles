@@ -19,7 +19,7 @@
 	st = status
 	sw = switch
 	sts = stash
-	scommit = commit -S
+	sco = commit -S
 
 [core]
 	editor = nvim
