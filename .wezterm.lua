@@ -13,4 +13,6 @@ config.color_scheme = "Tokyo Night (Gogh)"
 config.tab_bar_at_bottom = true
 config.use_fancy_tab_bar = true
 
+config.font = wezterm.font("CaskaydiaCove NF")
+
 return config
