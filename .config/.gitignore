@@ -1,16 +1,10 @@
-!nvim/
-!nvim/*.vim
-!nvim/*.lua
-!nvim/lua/
-!nvim/lua/**/*
-
-
-!mise/
-!mise/*
-
-
-!zellij/
-!zellij/*
-
+!nvim
+!nvim/**/*
+!mise
+!mise/**/*
+!zellij
+!zellij/**/*
+!yazi
+!yazi/**/*
 
 !starship.toml
