@@ -80,7 +80,7 @@ add_newline = false
 ##############
 
 [custom.gh]
-command = 'gh profile show'
+command = 'gh auth status | awk "/Logged in to github.com account/ {print $NF}\"'
 style = 'bold white'
 symbol = ''
 when = 'command -v gh >/dev/null 2>&1 && true || false'
