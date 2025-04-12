@@ -58,6 +58,7 @@ plugins=(
 	mise
 	man
 	poetry
+	ssh
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -108,6 +109,7 @@ alias zsrc="source ~/.zshrc"
 alias hs="history | fzf | sed 's/.* //' | xargs -I {} $SHELL -c '{}'"
 alias jj="just"
 alias nv="nvim"
+alias nvd="nvim ."
 
 # -----------------------
 # |       SHELL         |
@@ -137,7 +139,7 @@ function gch() {
 	if [ -n "$selected_branch" ]; then
 		git switch "$selected_branch"
 	fi
-}
+	}
 
 local missing_ghpr=()
 missing_ghpr=$(check_missing_commands gh fzf awk)
