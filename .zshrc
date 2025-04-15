@@ -137,7 +137,7 @@ function gch() {
 
 	selected_branch=$(git branch --all | fzf --preview "git log -n 20 {+1} | batcat" | sed 's/^* //;s|^.*origin/||;s/ *$//')
 	if [ -n "$selected_branch" ]; then
-		git switch "$selected_branch"
+		git switch $selected_branch
 	fi
 	}
 
@@ -272,6 +272,9 @@ fi
 # -----------------------
 # |         NODE        |
 # -----------------------
+
+export PNPM_HOME=$HOME/.local/bin/pnpm/
+export PATH="$PNPM_HOME:$PATH"
 
 alias pn="pnpm"
 alias pnd="pnpm dlx"
