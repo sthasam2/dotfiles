@@ -329,6 +329,8 @@ if command -v docker >/dev/null 2>&1; then
 		docker kill $(docker ps --format "{{.Names}}")
 		echo "\nRemoving containers..."
 		docker rm $(docker ps -a --format "{{.Names}}")
+    echo "\nRemoving networks..."
+    docker prune network -f
 	}
 
 	function kc-rmi() {
