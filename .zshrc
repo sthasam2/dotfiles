@@ -53,7 +53,6 @@ plugins=(
 	zsh-interactive-cd
 	zsh-navigation-tools
 	zsh-syntax-highlighting
-	zoxide
 	docker
 	mise
 	man
@@ -119,6 +118,19 @@ alias nvd="nvim ."
 if command -v starship >/dev/null 2>&1; then
 	eval "$(starship init zsh)"
 fi
+
+
+# -----------------------
+# |        MISE         |
+# -----------------------
+
+MISE_ACTIVATE_SCRIPT="/usr/bin/mise"
+
+if [ -x "$MISE_ACTIVATE_SCRIPT" ]; then
+	eval "$($MISE_ACTIVATE_SCRIPT activate zsh)"
+fi
+
+
 
 # -----------------------
 # |      GIT            |
@@ -330,7 +342,7 @@ if command -v docker >/dev/null 2>&1; then
 		echo "\nRemoving containers..."
 		docker rm $(docker ps -a --format "{{.Names}}")
     echo "\nRemoving networks..."
-    docker prune network -f
+    docker network prune -f
 	}
 
 	function kc-rmi() {
@@ -368,16 +380,6 @@ if command -v zellij >/dev/null 2>&1; then
 			echo "No session selected."
 		fi
 	}
-fi
-
-# -----------------------
-# |        MISE         |
-# -----------------------
-
-MISE_ACTIVATE_SCRIPT="$HOME/.local/bin/mise"
-
-if [ -x "$MISE_ACTIVATE_SCRIPT" ]; then
-	eval "$($MISE_ACTIVATE_SCRIPT activate zsh)"
 fi
 
 # -----------------------
