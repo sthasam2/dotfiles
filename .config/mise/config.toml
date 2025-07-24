@@ -2,7 +2,7 @@
 go = "latest"
 node = "latest"
 python = "latest"
-java = "11"
+java = "17"
 poetry = "latest"
 uv = "latest"
 lazygit = "latest"
@@ -13,3 +13,9 @@ neovim = "latest"
 zellij = "latest"
 starship = "latest"
 zoxide = "latest"
+android-sdk = "latest"
+ruff = "latest"
+biome = "latest"
+
+[settings]
+idiomatic_version_file_enable_tools = ["python"]
