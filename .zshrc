@@ -78,6 +78,8 @@ source $ZSH/oh-my-zsh.sh
 ###                 CUSTOM                    ###
 #################################################
 
+export EDITOR=nvim
+
 # BASH
 export PATH=/usr/bin:/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
@@ -341,12 +343,6 @@ if command -v docker >/dev/null 2>&1; then
 		docker kill $(docker ps --format "{{.Names}}")
 		echo "\nRemoving containers..."
 		docker rm $(docker ps -a --format "{{.Names}}")
-    echo "\nRemoving networks..."
-    docker network prune -f
-	}
-
-	function kc-rmi() {
-		docker images --format '{{.Repository}}:{{.Tag}}' | grep -e "k-v2" -e "konnectcraft" | xargs -I {} docker rmi {}
 	}
 
 	# export DOCKER_HOST=unix:///run/user/1000/docker.sock
