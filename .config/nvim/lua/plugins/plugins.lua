@@ -1,7 +1,3 @@
--- since this is just an example spec, don't actually load anything here and return an empty spec
--- stylua: ignore
-if true then return {} end
-
 -- every spec file under the "plugins" directory will be loaded automatically by lazy.nvim
 --
 -- In your plugin files, you can:
@@ -55,10 +51,16 @@ return {
     -- change some options
     opts = {
       defaults = {
+        file_ignore_patterns = { ".git/" },
         layout_strategy = "horizontal",
         layout_config = { prompt_position = "top" },
         sorting_strategy = "ascending",
         winblend = 0,
+      },
+      pickers = {
+        find_files = {
+          hidden = true,
+        },
       },
     },
   },
