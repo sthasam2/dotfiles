@@ -79,6 +79,7 @@ source $ZSH/oh-my-zsh.sh
 #################################################
 
 export EDITOR=nvim
+alias sshconf="$EDITOR $HOME/.ssh/config"
 
 # BASH
 export PATH=/usr/bin:/bin:$PATH
