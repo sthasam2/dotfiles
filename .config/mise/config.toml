@@ -16,6 +16,7 @@ zoxide = "latest"
 android-sdk = "latest"
 ruff = "latest"
 biome = "latest"
+golangci-lint = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = ["python"]
