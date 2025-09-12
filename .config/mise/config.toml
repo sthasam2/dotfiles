@@ -17,6 +17,7 @@ android-sdk = "latest"
 ruff = "latest"
 biome = "latest"
 golangci-lint = "latest"
+minikube = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = ["python"]
