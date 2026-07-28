@@ -1,12 +1,27 @@
 !nvim
 !nvim/**/*
+
 !nvim.bak
 !nvim.bak/**/*
+
 !mise
 !mise/**/*
+
+!lazydocker
+!lazydocker/**/*
+
+!lazygit
+!lazygit/**/*
+
+
 !zellij
 !zellij/**/*
+
 !yazi
 !yazi/**/*
+
+!zed
+!zed/**/*
+
 
 !starship.toml

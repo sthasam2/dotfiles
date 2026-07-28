@@ -1,0 +1,39 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace && !Terminal",
+    "bindings": {
+      "ctrl-shift-g ctrl-shift-g": [
+        "task::Spawn",
+        {
+          "task_name": "LazyGit",
+        },
+      ],
+      "ctrl-shift-d ctrl-shift-d": [
+        "task::Spawn",
+        {
+          "task_name": "LazyDocker",
+        },
+      ],
+      "ctrl-shift-s ctrl-shift-q": [
+        "task::Spawn",
+        {
+          "task_name": "LazySql",
+        },
+      ],
+    },
+  },
+
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      // "j k": "vim::NormalBefore"
+    },
+  },
+]
