@@ -7,11 +7,12 @@
 !.bashrc
 !.tmux.conf
 
+!.agents/
+!.agents/.gitignore
 !.config/
 !.config/.gitignore
 
 # Added by cargo
-
 /target
 
 !.wezterm.lua
