@@ -127,7 +127,7 @@ fi
 # |        MISE         |
 # -----------------------
 
-MISE_ACTIVATE_SCRIPT="/usr/bin/mise"
+MISE_ACTIVATE_SCRIPT="$HOME/.local/bin/mise"
 
 if [ -x "$MISE_ACTIVATE_SCRIPT" ]; then
 	eval "$($MISE_ACTIVATE_SCRIPT activate zsh)"
@@ -336,7 +336,7 @@ alias dlf="docker logs -f"
 alias deit="docker container exec -it"
 alias dex="docker container exec"
 alias dprune="docker system prune -f && docker volume prune -f"
-alias dpsf="docker ps --format '{{.Names}}:\n\tstatus: {{.Status}}\n\tports: {{.Ports}}\n'"
+alias dpsf="docker ps --format '{{.Names}}:\n\tstatus: {{.Status}}\n\tports: {{.Ports}}\n\timage: {{.Image}}\n'"
 
 if command -v docker >/dev/null 2>&1; then
 	function dkrm() {
