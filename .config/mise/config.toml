@@ -27,6 +27,9 @@ ollama = "latest"
 codex = "latest"
 claude-code = "latest"
 qwen-code = "latest"
+oh-my-pi = { version = "latest", rename_exe = "omp" }
+bun = "latest"
+yq = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = ["python"]
