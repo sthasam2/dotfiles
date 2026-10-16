@@ -131,6 +131,7 @@ MISE_ACTIVATE_SCRIPT="$HOME/.local/bin/mise"
 
 if [ -x "$MISE_ACTIVATE_SCRIPT" ]; then
 	eval "$($MISE_ACTIVATE_SCRIPT activate zsh)"
+  alias msr="mise run"
 fi
 
 
