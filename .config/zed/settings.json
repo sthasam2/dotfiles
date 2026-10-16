@@ -7,11 +7,15 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "disable_ai": false,
   "format_on_save": "on",
   "agent_ui_font_size": 13.0,
   "buffer_line_height": "comfortable",
   "buffer_font_weight": 400.0,
   "language_models": {
+    "lmstudio": {
+      "api_url": "http://localhost:1234/api/v1",
+    },
     "openai_compatible": {
       "9Router": {
         "api_url": "http://localhost:20128/v1",
@@ -74,6 +78,7 @@
     "dock": "left",
   },
   "git_panel": {
+    "tree_view": true,
     "dock": "left",
   },
   "edit_predictions": {
@@ -88,55 +93,55 @@
       {
         "provider": "openrouter",
         "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
-        "enable_thinking": true
+        "enable_thinking": true,
       },
       {
         "provider": "openrouter",
         "model": "google/gemma-4-31b-it:free",
-        "enable_thinking": true
+        "enable_thinking": true,
       },
       {
         "provider": "openrouter",
         "model": "openai/gpt-oss-20b:free",
-        "enable_thinking": true
+        "enable_thinking": true,
       },
       {
         "provider": "openrouter",
         "model": "google/gemma-4-26b-a4b-it:free",
-        "enable_thinking": true
+        "enable_thinking": true,
       },
       {
         "provider": "openrouter",
         "model": "nvidia/nemotron-3-super-120b-a12b:free",
-        "enable_thinking": true
+        "enable_thinking": true,
       },
       {
         "provider": "openrouter",
         "model": "google/gemini-3.1-flash-image-preview",
-        "enable_thinking": true
+        "enable_thinking": true,
       },
       {
         "provider": "openrouter",
         "model": "google/gemini-3.1-flash-lite-preview",
-        "enable_thinking": true
+        "enable_thinking": true,
       },
       {
         "provider": "openrouter",
         "model": "google/gemini-3-flash-preview",
-        "enable_thinking": true
+        "enable_thinking": true,
       },
       {
         "provider": "openrouter",
         "model": "nvidia/nemotron-nano-9b-v2:free",
-        "enable_thinking": true
+        "enable_thinking": true,
       },
       {
         "provider": "openrouter",
         "model": "nvidia/nemotron-3-nano-30b-a3b:free",
-        "enable_thinking": true
-      }
+        "enable_thinking": true,
+      },
     ],
-    "sidebar_side": "left",
+    "sidebar_side": "right",
     "default_profile": "write",
     "dock": "left",
     "default_model": {
@@ -147,16 +152,31 @@
     "model_parameters": [],
   },
   "agent_servers": {
+    "Oh My Pi": {
+      "type": "custom",
+      "command": "omp",
+      "args": ["acp"],
+    },
+    "antigravity-acp": {
+      "type": "registry",
+    },
+    "pi-acp": {
+      "type": "registry",
+    },
     "qwen-code": {
-      "type": "registry"
+      "type": "registry",
     },
     "kimi": {
-      "type": "registry"
+      "type": "registry",
     },
     "glm-acp-agent": {
-      "type": "registry"
+      "type": "registry",
     },
     "github-copilot-cli": {
+      "default_config_options": {
+        "allow_all": "on",
+        "mode": "https://agentclientprotocol.com/protocol/session-modes#autopilot",
+      },
       "type": "registry",
     },
     "gemini": {
@@ -252,7 +272,7 @@
       },
     },
     "TSX": {
-      "show_edit_predictions": false,
+      "show_edit_predictions": true,
       "language_servers": [
         "tsgo",
         "biome",
